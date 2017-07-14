@@ -14,48 +14,38 @@ public class Game {
     {
         Room outside, lobby, pub, study, bedroom;
       
-        //	鍒堕�犳埧闂�
-        outside = new Room("鍩庡牎澶�");
-        lobby = new Room("澶у爞");
-        pub = new Room("灏忛厭鍚�");
-        study = new Room("涔︽埧");
-        bedroom = new Room("鍗у");
+        //	制造房间
+        outside = new Room("城堡外");
+        lobby = new Room("大堂");
+        pub = new Room("小酒吧");
+        study = new Room("书房");
+        bedroom = new Room("卧室");
         
-        //	鍒濆鍖栨埧闂寸殑鍑哄彛
+        //	初始化房间的出口
         outside.setExits(null, lobby, study, pub);
         lobby.setExits(null, null, null, outside);
         pub.setExits(null, outside, null, null);
         study.setExits(outside, bedroom, null, null);
         bedroom.setExits(null, null, null, study);
 
-        currentRoom = outside;  //	浠庡煄鍫￠棬澶栧紑濮�
+        currentRoom = outside;  //	从城堡门外开始
     }
 
     private void printWelcome() {
         System.out.println();
-        System.out.println("娆㈣繋鏉ュ埌鍩庡牎锛�");
-        System.out.println("杩欐槸涓�涓秴绾ф棤鑱婄殑娓告垙銆�");
-        System.out.println("濡傛灉闇�瑕佸府鍔╋紝璇疯緭鍏� 'help' 銆�");
+        System.out.println("欢迎来到城堡！");
+        System.out.println("这是一个超级无聊的游戏。");
+        System.out.println("如果需要帮助，请输入 'help' 。");
         System.out.println();
-        System.out.println("鐜板湪浣犲湪" + currentRoom);
-        System.out.print("鍑哄彛鏈夛細");
-        if(currentRoom.northExit != null)
-            System.out.print("north ");
-        if(currentRoom.eastExit != null)
-            System.out.print("east ");
-        if(currentRoom.southExit != null)
-            System.out.print("south ");
-        if(currentRoom.westExit != null)
-            System.out.print("west ");
-        System.out.println();
+        showPrompt();
     }
 
-    // 浠ヤ笅涓虹敤鎴峰懡浠�
+    // 以下为用户命令
 
     private void printHelp() 
     {
-        System.out.print("杩疯矾浜嗗悧锛熶綘鍙互鍋氱殑鍛戒护鏈夛細go bye help");
-        System.out.println("濡傦細\tgo east");
+        System.out.print("迷路了吗？你可以做的命令有：go bye help");
+        System.out.println("如：\tgo east");
     }
 
     private void goRoom(String direction) 
@@ -75,21 +65,11 @@ public class Game {
         }
 
         if (nextRoom == null) {
-            System.out.println("閭ｉ噷娌℃湁闂紒");
+            System.out.println("那里没有门！");
         }
         else {
             currentRoom = nextRoom;
-            System.out.println("浣犲湪" + currentRoom);
-            System.out.print("鍑哄彛鏈�: ");
-            if(currentRoom.northExit != null)
-                System.out.print("north ");
-            if(currentRoom.eastExit != null)
-                System.out.print("east ");
-            if(currentRoom.southExit != null)
-                System.out.print("south ");
-            if(currentRoom.westExit != null)
-                System.out.print("west ");
-            System.out.println();
+            showPrompt();
         }
     }
 	
@@ -110,8 +90,21 @@ public class Game {
         		}
         }
         
-        System.out.println("鎰熻阿鎮ㄧ殑鍏変复銆傚啀瑙侊紒");
+        System.out.println("感谢您的光临。再见！");
         in.close();
 	}
+	
+	 public void showPrompt() {
+		    System.out.println("现在你在" + currentRoom);
+		        System.out.print("出口有：");
+		        if(currentRoom.northExit != null)
+		            System.out.print("north ");
+		        if(currentRoom.eastExit != null)
+		            System.out.print("east ");
+		        if(currentRoom.southExit != null)
+		            System.out.print("south ");
+		        if(currentRoom.westExit != null)
+		            System.out.print("west ");
+		 }
 
 }
